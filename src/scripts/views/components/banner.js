@@ -4,6 +4,7 @@ var Banner = React.createClass({
 	_handleKeyDown: function(evtObj){
 		if (evtObj.keyCode === 13) {
 			location.hash = `search/${evtObj.target.value}`
+			evtObj.target.value = ''
 		}
 	},
 

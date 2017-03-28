@@ -13,12 +13,13 @@ var app = function() {
 	var NewsRouter = Backbone.Router.extend({
 		routes: {
 			'home': 'handleHome',
-			'search/:query': 'handleNewsSearch',
 			'details/:id': 'handleDetail',
+			'search/:query': 'handleNewsSearch',
 			'*defaultRoute': 'handleRedirect'
 		},
 
 		handleHome: function() {
+			// ReactDOM.render will mount a React component onto the actual DOM
 			ReactDOM.render(<HomePage />,document.querySelector('.container'))
 		},
 
@@ -26,7 +27,7 @@ var app = function() {
 			location.hash = 'home'
 		},
 
-		handleNewsSearch: function(query) {
+		handleNewsSearchWithPromise: function(query) {
 			var collectionInstance = new ArticleCollection()
 			var promise = collectionInstance.fetch({
 				data:{
@@ -40,13 +41,28 @@ var app = function() {
 
 			//Right way
 			promise.then(function(){
+				// ReactDOM.render mounts the Articles Page comment
+				// any key-value pairs that we assign to the component upon rendering
+				// will go onto that components props object
+				// {} below is necessary when putting a JS name into JSX
 				ReactDOM.render(<ArticlesPage 
-					cohort='awesome' 
-					student='kenji'
 					articleColl={collectionInstance}
 					/>, document.querySelector('.container'))
 			})	
 
+		},
+
+		handleNewsSearch: function(query) {
+			var collectionInstance = new ArticleCollection()
+			collectionInstance.fetch({
+				data:{
+					'q':query,
+					'api-key': collectionInstance._key
+				}
+			}) 
+				ReactDOM.render(<ArticlesPage 
+					articleColl={collectionInstance}
+					/>, document.querySelector('.container'))
 		}
 	})
 	new NewsRouter 

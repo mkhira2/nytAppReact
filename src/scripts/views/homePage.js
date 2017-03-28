@@ -8,7 +8,7 @@ var HomePage = React.createClass({
 				<Banner />
 				<p>100% Not Not Fake</p>
 			</div>
-			)
+		)
 	}
 })
 

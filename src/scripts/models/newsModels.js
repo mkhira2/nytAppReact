@@ -5,7 +5,6 @@ export var ArticleCollection = Backbone.Collection.extend({
 	_key: "fa162f9ec488494abf21f3f3b2225849",
 	parse: function(apiResponse) {
 		return apiResponse.response.docs
-
 	}
 })
 
